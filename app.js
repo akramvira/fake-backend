@@ -10,19 +10,21 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(express.json());
+
 app.get("/api/login", (req, res, next) => {
     res.json({token : "ADMINTOKENNODEJS"});
 });
 app.post("/api/login", (req, res, next) => {
 
-    if (req.headers.username === "admin" && req.headers.password === "123456")
+    if (req.body.username === "admin" && req.body.password === "123456")
     {
         res.status(200);
         res.json({token : "TOKEN:"+Math.random()});
     }
     else{
-        res.status(500);
-        res.json({error : "نام کاربری یا کلمه عبور "});
+        res.status(406);
+        res.json({error : "نام کاربری یا کلمه عبور اشتباه است"});
     }
 });
 
