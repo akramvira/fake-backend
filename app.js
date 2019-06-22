@@ -12,15 +12,26 @@ app.use(function(req, res, next) {
 
 app.use(express.json());
 
+
+//login section
 app.get("/api/login", (req, res, next) => {
-    res.json({token : "ADMINTOKENNODEJS"});
+
+    if(req.query.token === "ADMINTOKENNODEJS" )
+    {
+        res.status(200);
+        res.json({token : "ADMINTOKENNODEJS"});
+    }
+    else{
+        res.status(401);
+        res.json({message : "شما از سیستم خارج شده اید."});
+    }
+
 });
 app.post("/api/login", (req, res, next) => {
-
     if (req.body.username === "admin" && req.body.password === "123456")
     {
         res.status(200);
-        res.json({token : "TOKEN:"+Math.random()});
+        res.json({token : "ADMINTOKENNODEJS"});/*+Math.random()*/
     }
     else{
         res.status(406);
