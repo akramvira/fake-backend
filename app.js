@@ -38,9 +38,21 @@ app.post("/api/login", (req, res, next) => {
         res.json({error : "نام کاربری یا کلمه عبور اشتباه است"});
     }
 });
+app.get("/api/logout", (req, res, next) => {
 
+    if( true )
+    {
+        res.status(200);
+        res.json({message: "با موفقیت از سیستم خارج شدید!"});
+    }
+    else{
+        res.status(401);
+        res.json({message : "مشکل در خروح از سیستم"});
+    }
 
-app.post("/api/dashboard", (req, res, next) => {
+});
+
+app.get("/api/dashboard", (req, res, next) => {
 
     res.json({
             cpu: parseInt(Math.random()* 100),
