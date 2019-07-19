@@ -15,7 +15,6 @@ app.use(express.json());
 
 //login section
 app.get("/api/login", (req, res, next) => {
-
     if (req.query.token === "ADMINTOKENNODEJS") {
         res.status(200);
         res.json({ token: "ADMINTOKENNODEJS" });
@@ -24,7 +23,6 @@ app.get("/api/login", (req, res, next) => {
         res.status(401);
         res.json({ message: "شما از سیستم خارج شده اید." });
     }
-
 });
 app.post("/api/login", (req, res, next) => {
     if (req.body.username === "admin" && req.body.password === "123456") {
@@ -52,22 +50,29 @@ app.get("/api/logout", (req, res, next) => {
 
 app.get("/api/dashboard", (req, res, next) => {
     res.json({
-        cpu: parseInt(Math.random() * 100),
-        ram: parseInt(Math.random() * 100),
-        activecall: parseInt(Math.random() * 100),
-        swap: parseInt(Math.random() * 100),
+        "cpu": randBetween(60 , 80),
+        "ram": randBetween(60 , 80),
+        
+        "swap":  randBetween(60 , 80),
+        "activecalls": randBetween(60 , 80),
+        "callprocessed": parseInt(Math.random() * 100),
 
-        activeTime: parseInt(Math.random() * 100),
-        activeTrunks: parseInt(Math.random() * 100),
-        activeCalls: parseInt(Math.random() * 100),
-        activeChannels: parseInt(Math.random() * 100),
-        callsCountInQueue: parseInt(Math.random() * 100),
+        "activeTime": parseInt(Math.random() * 100),
+        "activeTrunks": parseInt(Math.random() * 100),
+        "activeChannels": parseInt(Math.random() * 100),
+        "callsCountInQueue": parseInt(Math.random() * 100),
 
-        hard: {
-            capacity: 100,
-            use: parseInt(Math.random() * 100),
-            available: parseInt(Math.random() * 100)
-        }
+        "hard": {
+            "capacity": 100,
+            "use": parseInt(Math.random() * 100),
+            "available": parseInt(Math.random() * 100)
+        },
+
+        "chart": //[cpu, ram ,swap, activecals ]
+            [
+            [Math.random() * 100,Math.random() * 100,Math.random() * 100,Math.random() * 100]
+            
+            ]
     }
     );
 });
@@ -78,15 +83,70 @@ app.post("/api/admin/setting/save", (req, res, next) => {
 });
 app.get("/api/admin/setting", (req, res, next) => {
     res.json({
-        operator: ['1233445567', 'username', 'password', 'database'],
-        cdr: ['ip', 'username', 'password', 'database'],
-        asterisk:['ip', 'username', 'password', 'database'],
-        redis: ['ip', 'username', 'password', 'port'],
-        ami: ['ip', 'username', 'password', 'port'],
-
-        reng_prepend_out: ['form', 'to'],
-        reng_did_in: ['form', 'to'],
-        perfix_out: 123456,
-    })
+        "operatori": {
+                "title": "operatori",
+                "ip": "127.0.0.1",
+                "port": "",
+                "username": "root",
+                "password": ""
+                },
+        "server": {
+                "title": "server",
+                "ip": "192.168.137.98",
+                "port": null,
+                "username": "root",
+                "password": "viraegs4122"
+                },
+        "ami": {
+                "title": "ami",
+                "ip": "192.168.137.98",
+                "port": null,
+                "username": "masoud",
+                "password": "masoud"
+                },
+        "redis": {
+                "title": "redis",
+                "ip": "127.0.0.1",
+                "port": "6379",
+                "username": null,
+                "password": null
+                },
+        "countco": 2,
+        "counte1": 20,
+        "queue_number": 9004,
+        "prepend_outbound_from": 8000,
+        "prepend_outbound_to": 9000,
+        "did_inbound_from": 0,
+        "did_inbound_to": 0,
+        "prefix_outbound_transfer": 0
+        }
+        )
 });
 
+
+
+//group managements
+app.get("/api/admin/users/groups", (req, res, next) => {
+    res.json({
+            "1": {
+                "name": "نیروی انسانی",
+                "value": "1002,1001"
+                },
+            "2": {
+                "name": "فرهنگیان",
+                "value": "1011,1010"
+                }
+            });
+});
+app.post("/api/admin/users/groups", (req, res, next) => {
+    console.log(req) ;
+    //data : 
+    // req.body.name 
+ });
+
+
+
+
+ function randBetween(a , b){
+     return ((Math.random() * 100 / a )+ b);
+ }
