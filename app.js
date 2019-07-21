@@ -27,7 +27,9 @@ app.get("/api/login", (req, res, next) => {
 app.post("/api/login", (req, res, next) => {
     if (req.body.username === "admin" && req.body.password === "123456") {
         res.status(200);
-        res.json({ token: "ADMINTOKENNODEJS" });/*+Math.random()*/
+        res.json({ 
+            data: {token: "ADMINTOKENNODEJS"}
+         });/*+Math.random()*/
     }
     else {
         res.status(406);
@@ -48,38 +50,50 @@ app.get("/api/logout", (req, res, next) => {
 });
 
 
-app.get("/api/dashboard", (req, res, next) => {
-    res.json({
-        "cpu": randBetween(60 , 80),
-        "ram": randBetween(60 , 80),
-        
-        "swap":  randBetween(60 , 80),
-        "activecalls": randBetween(60 , 80),
-        "callprocessed": parseInt(Math.random() * 100),
-
-        "activeTime": parseInt(Math.random() * 100),
-        "activeTrunks": parseInt(Math.random() * 100),
-        "activeChannels": parseInt(Math.random() * 100),
-        "callsCountInQueue": parseInt(Math.random() * 100),
-
-        "hard": {
-            "capacity": 100,
-            "use": parseInt(Math.random() * 100),
-            "available": parseInt(Math.random() * 100)
-        },
-
-        "chart": //[cpu, ram ,swap, activecals ]
-            [
-            [Math.random() * 100,Math.random() * 100,Math.random() * 100,Math.random() * 100]
+app.get("/api/admin/dashboard", (req, res, next) => {
+    
+    if (req.query.token == 'ADMINTOKENNODEJS')
+    {
+        res.json({
+            "cpu": randBetween(60 , 80),
+            "ram": randBetween(60 , 80),
             
-            ]
-    }
+            "swap":  randBetween(60 , 80),
+            "activecalls": randBetween(60 , 80),
+            "callprocessed": parseInt(Math.random() * 100),
+
+            "activeTime": parseInt(Math.random() * 100),
+            "activeTrunks": parseInt(Math.random() * 100),
+            "activeChannels": parseInt(Math.random() * 100),
+            "callsCountInQueue": parseInt(Math.random() * 100),
+
+            "hard": {
+                "capacity": 100,
+                "use": parseInt(Math.random() * 100),
+                "available": parseInt(Math.random() * 100)
+            },
+
+            "chart": //[cpu, ram ,swap, activecals ]
+                [
+                [Math.random() * 100,Math.random() * 100,Math.random() * 100,Math.random() * 100]
+                
+                ]
+        }
     );
+    
+    }
+    else {
+        res.status(403);
+        res.json({
+            data: {error: "شما اجازه دستررسی ندارید"}
+        });
+    }
 });
 
 //setting
 app.post("/api/admin/setting/save", (req, res, next) => {
-   console.log(req) ;
+    res.status(200);
+   console.log(req.body) ;
 });
 app.get("/api/admin/setting", (req, res, next) => {
     res.json({
