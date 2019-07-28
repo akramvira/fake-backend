@@ -137,9 +137,70 @@ app.get("/api/admin/setting", (req, res, next) => {
         )
 });
 
+app.post(" /api/admin/setting/license", (req, res, next )=> {
+    console.log(req.body);
+})
+app.get(" /api/admin/setting/license", (req, res, next )=> {
+    res.json(
+        {
+        data :[
+            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
+            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
+            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
+            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  }
+        ]
+        });
+})
+
+
+
 
 
 //group managements
+
+//get all users
+app.get("/api/admin/users", (req, res, next) => {
+    res.json({
+        "users": [
+        
+                    {
+                    "id": 6,
+                    "active": 1,
+                    "level": "admin",
+                    "name": "admin",
+                    "username": "admin",
+                    "phonenumber": 9993,
+                    "num_queue1": 9004,
+                    "num_park": 9006,
+                    "num_hold": 9005,
+                    "num_redial": 9007,
+                    "conferance": 9090,
+                    "updated_at": null,
+                    "roles": [
+                                {
+                                    "name": "admin",
+                                    "title": "Admin",
+                                    "pivot": {
+                                    "entity_id": 6,
+                                    "role_id": 2,
+                                    "entity_type": "App\\User",
+                                    "scope": null
+                                            }
+                                }
+                            ]
+                    }
+
+                    ],
+                    //all roles
+                    "roles": [
+                    {
+                        "id": 2,
+                        "name": "admin",
+                        "title": "Admin"
+                    }
+                    ]
+        });
+});
 app.get("/api/admin/users/groups", (req, res, next) => {
     res.json({
             "1": {
@@ -157,6 +218,27 @@ app.post("/api/admin/users/groups", (req, res, next) => {
     //data : 
     // req.body.name 
  });
+
+
+
+
+//user-management
+app.post("/api/admin/users", (req, res, next)=> {
+    console.log('Post on /api/admin/users');
+    console.log(req.body);
+});
+app.get("/api/admin/users", (req, res, next)=> {
+    console.log('Post on /api/admin/users');
+    console.log(req.body);
+})
+
+
+
+
+
+
+
+
 
 
 
