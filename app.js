@@ -59,7 +59,7 @@ app.get("/api/admin/dashboard", (req, res, next) => {
             "ram": randBetween(60 , 80),
             
             "swap":  randBetween(60 , 80),
-            "activecalls": randBetween(60 , 80),
+            "activecalls": randBetween(60 , 80, 'int'),
             "callprocessed": parseInt(Math.random() * 100),
 
             "activeTime": parseInt(Math.random() * 100),
@@ -181,15 +181,28 @@ app.get("/api/admin/users", (req, res, next) => {
                                     "name": "admin",
                                     "title": "Admin",
                                     "pivot": {
-                                    "entity_id": 6,
-                                    "role_id": 2,
-                                    "entity_type": "App\\User",
-                                    "scope": null
+                                            "entity_id": 6,
+                                            "role_id": 2,
+                                            "entity_type": "App\\User",
+                                            "scope": null
                                             }
                                 }
                             ]
-                    }
-
+                    },
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'مونا فرجاد', username: 'user2', role: 'مقام 2' },
+            
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'اکرم ربیع', username: 'akramrabie', role: 'مقام 1'},
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'مریم طاهری', username: 'user 12', role: 'مقام 2' },
+                    { level: 'اپراتور', name: 'هادی داوری', username: 'user80', role: 'مقام 1' 
+                            , phonenumber : '123456765', num_queue1 : '123456754', num_park : '675432'  },
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'زهرا کاظمی', username: 'user44', role: 'مقام2' },
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'ملیحه طاهری', username: 'user89', role: 'مقام 5' },
+                    { level: 'اپراتور', name: 'علی ربیع', username: 'user550', role: 'مقام 4' },
+                    { level: 'اپراتور', name: 'آنا فرجام', username: 'user09', role: 'مثم 5' },
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'بهار شفیق', username: 'user55', role: 'مقام 3' },
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'شهرام بلوچی', username: 'user234', role: 'مقام 1' },
+                    { level: '<i class="fa fa-user"></i>ادمین', name: 'مونا فرجاد', username: 'user2', role: 'مقام 2' },
+                    
                     ],
                     //all roles
                     "roles": [
@@ -243,6 +256,7 @@ app.get("/api/admin/users", (req, res, next)=> {
 
 
 
- function randBetween(a , b){
-     return ((Math.random() * 100 / a )+ b);
+ function randBetween(start , end , wantInt){
+
+     return (wantInt)? Math.floor(Math.random() * (end - start + 1) + start): Math.random() * (end - start + 1) + start ;
  }
