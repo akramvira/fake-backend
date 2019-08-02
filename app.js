@@ -36,8 +36,9 @@ app.post("/api/login", (req, res, next) => {
         res.json({ error: "نام کاربری یا کلمه عبور اشتباه است" });
     }
 });
-app.get("/api/logout", (req, res, next) => {
+app.post("/api/logout", (req, res, next) => {
 
+    console.log(req.body.token)
     if (true) {
         res.status(200);
         res.json({ message: "با موفقیت از سیستم خارج شدید!" });
@@ -137,12 +138,13 @@ app.get("/api/admin/setting", (req, res, next) => {
         )
 });
 
-app.post(" /api/admin/setting/license", (req, res, next )=> {
+app.post("/api/admin/setting/license", (req, res, next )=> {
     console.log(req.body);
 })
-app.get(" /api/admin/setting/license", (req, res, next )=> {
+app.get("/api/admin/setting/license", (req, res, next )=> {
     res.json(
         {
+            
         data :[
             { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
             { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
@@ -189,20 +191,141 @@ app.get("/api/admin/users", (req, res, next) => {
                                 }
                             ]
                     },
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'مونا فرجاد', username: 'user2', role: 'مقام 2' },
-            
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'اکرم ربیع', username: 'akramrabie', role: 'مقام 1'},
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'مریم طاهری', username: 'user 12', role: 'مقام 2' },
-                    { level: 'اپراتور', name: 'هادی داوری', username: 'user80', role: 'مقام 1' 
-                            , phonenumber : '123456765', num_queue1 : '123456754', num_park : '675432'  },
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'زهرا کاظمی', username: 'user44', role: 'مقام2' },
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'ملیحه طاهری', username: 'user89', role: 'مقام 5' },
-                    { level: 'اپراتور', name: 'علی ربیع', username: 'user550', role: 'مقام 4' },
-                    { level: 'اپراتور', name: 'آنا فرجام', username: 'user09', role: 'مثم 5' },
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'بهار شفیق', username: 'user55', role: 'مقام 3' },
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'شهرام بلوچی', username: 'user234', role: 'مقام 1' },
-                    { level: '<i class="fa fa-user"></i>ادمین', name: 'مونا فرجاد', username: 'user2', role: 'مقام 2' },
-                    
+                    {
+                        "id": 6,
+                        "active": 0,
+                        "level": "admin",
+                        "name": "admin",
+                        "username": "admin",
+                        "phonenumber": 9993,
+                        "num_queue1": 9004,
+                        "num_park": 9006,
+                        "num_hold": 9005,
+                        "num_redial": 9007,
+                        "conferance": 9090,
+                        "updated_at": null,
+                        "roles": [
+                                    {
+                                        "name": "admin",
+                                        "title": "Admin",
+                                        "pivot": {
+                                                "entity_id": 6,
+                                                "role_id": 2,
+                                                "entity_type": "App\\User",
+                                                "scope": null
+                                                }
+                                    }
+                                ]
+                        },
+
+                        {
+                            "id": 6,
+                            "active": 1,
+                            "level": "operator",
+                            "name": "admin",
+                            "username": "admin",
+                            "phonenumber": 9993,
+                            "num_queue1": 9004,
+                            "num_park": 9006,
+                            "num_hold": 9005,
+                            "num_redial": 9007,
+                            "conferance": 9090,
+                            "updated_at": null,
+                            "roles": [
+                                        {
+                                            "name": "admin",
+                                            "title": "Admin",
+                                            "pivot": {
+                                                    "entity_id": 6,
+                                                    "role_id": 2,
+                                                    "entity_type": "App\\User",
+                                                    "scope": null
+                                                    }
+                                        }
+                                    ]
+                            },
+
+
+                        {
+                            "id": 6,
+                            "active": 1,
+                            "level": "admin",
+                            "name": "admin",
+                            "username": "admin",
+                            "phonenumber": 9993,
+                            "num_queue1": 9004,
+                            "num_park": 9006,
+                            "num_hold": 9005,
+                            "num_redial": 9007,
+                            "conferance": 9090,
+                            "updated_at": null,
+                            "roles": [
+                                        {
+                                            "name": "admin",
+                                            "title": "Admin",
+                                            "pivot": {
+                                                    "entity_id": 6,
+                                                    "role_id": 2,
+                                                    "entity_type": "App\\User",
+                                                    "scope": null
+                                                    }
+                                        }
+                                    ]
+                            },
+
+
+                        {
+                            "id": 6,
+                            "active": 0,
+                            "level": "operator",
+                            "name": "admin",
+                            "username": "admin",
+                            "phonenumber": 9993,
+                            "num_queue1": 9004,
+                            "num_park": 9006,
+                            "num_hold": 9005,
+                            "num_redial": 9007,
+                            "conferance": 9090,
+                            "updated_at": null,
+                            "roles": [
+                                        {
+                                            "name": "admin",
+                                            "title": "Admin",
+                                            "pivot": {
+                                                    "entity_id": 6,
+                                                    "role_id": 2,
+                                                    "entity_type": "App\\User",
+                                                    "scope": null
+                                                    }
+                                        }
+                                    ]
+                            },
+                            {
+                                "id": 6,
+                                "active": 1,
+                                "level": "admin",
+                                "name": "admin",
+                                "username": "admin",
+                                "phonenumber": 9993,
+                                "num_queue1": 9004,
+                                "num_park": 9006,
+                                "num_hold": 9005,
+                                "num_redial": 9007,
+                                "conferance": 9090,
+                                "updated_at": null,
+                                "roles": [
+                                            {
+                                                "name": "admin",
+                                                "title": "Admin",
+                                                "pivot": {
+                                                        "entity_id": 6,
+                                                        "role_id": 2,
+                                                        "entity_type": "App\\User",
+                                                        "scope": null
+                                                        }
+                                            }
+                                        ]
+                                }
                     ],
                     //all roles
                     "roles": [
@@ -258,5 +381,7 @@ app.get("/api/admin/users", (req, res, next)=> {
 
  function randBetween(start , end , wantInt){
 
-     return (wantInt)? Math.floor(Math.random() * (end - start + 1) + start): Math.random() * (end - start + 1) + start ;
+     return (wantInt)? 
+                    Math.floor(Math.random() * (end - start + 1) + start)
+                  : Math.random() * (end - start + 1) + start ;
  }
