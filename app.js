@@ -27,6 +27,7 @@ app.use(express.json());
 
 //login section
 app.get("/api/login", (req, res, next) => {
+    console.log('get/api/login');
     if (req.query.token === "ADMINTOKENNODEJS") {
         res.status(200);
         res.json({ token: "ADMINTOKENNODEJS" });
@@ -37,6 +38,7 @@ app.get("/api/login", (req, res, next) => {
     }
 });
 app.post("/api/login", (req, res, next) => {
+    console.log('post/api/login');
     if (req.body.username === "admin" && req.body.password === "123456") {
         res.status(200);
         res.json({ 
@@ -49,7 +51,6 @@ app.post("/api/login", (req, res, next) => {
     }
 });
 app.post("/api/logout", (req, res, next) => {
-
     console.log(req.body.token)
     if (true) {
         res.status(200);
@@ -62,10 +63,11 @@ app.post("/api/logout", (req, res, next) => {
 
 });
 app.get("/api/admin/menu", (req, res, next) =>{
+    console.log('get/api/admin/menu');
     res.json({
         data:[
              "dashboard", 
-             "setting",
+             "settings",
              "users",
              "userRols",
              "queues",
@@ -78,7 +80,7 @@ app.get("/api/admin/menu", (req, res, next) =>{
 })
 
 app.get("/api/admin/dashboard", (req, res, next) => {
-    
+    console.log('get/api/admin/dashboard');
     console.log(req.headers.authorization);
     if (req.headers.authorization == 'Bearer ADMINTOKENNODEJS')
     {
@@ -120,10 +122,12 @@ app.get("/api/admin/dashboard", (req, res, next) => {
 
 //setting
 app.post("/api/admin/setting/save", (req, res, next) => {
+    console.log('/api/admin/setting/save');
     res.status(200);
    console.log(req.body) ;
 });
 app.post("/api/admin/setting/route/save", (req, res, next) => {
+    console.log('/api/admin/setting/route/save');
     res.status(200);
    console.log(req.body) ;
 });
@@ -173,7 +177,12 @@ app.post("/api/admin/setting/license", (req, res, next )=> {
     console.log(req.body);
     res.json(
         {
-           
+            license :[
+                { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:2},
+                { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:1},
+                { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:5},
+                { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:3}
+            ]
         });
 })
 app.get("/api/admin/setting/license", (req, res, next )=> {
@@ -184,11 +193,11 @@ app.get("/api/admin/setting/license", (req, res, next )=> {
         startDate: '',
   
             
-        data :[
-            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
-            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
-            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  },
-            { name : 'دسترسی به 1' , time: '27/12/1370', isActive: true, date : '27/12/1370'  }
+        license :[
+            { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:2},
+            { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:1},
+            { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:5},
+            { title : 'دسترسی به 1' , active_time: '27/12/1370', isActive: true, date : '27/12/1370', count:3}
         ]
         });
 })
@@ -662,6 +671,548 @@ app.put("/api/admin/groups/:id", (req, res, next)=> {
 
 });
 
+
+
+//rioles
+app.get('/api/admin/users/roles', (req, res) =>{
+    console.log('api/admin/users/roles');
+
+    res.json({
+        "roles": {
+            "2": {
+                "name": "admin",
+                "title": "Admin",
+                "ability": {
+                        "1": "Admin permissions",
+                        "5": "Admin queues"
+                        }
+            }
+        },
+        "abilities": [
+                    {
+                    "id": 1,
+                    "title": "Admin permissions"
+                    },
+                    {
+                    "id": 2,
+                    "title": "Admin extensions"
+                    },
+                    {
+                    "id": 3,
+                    "title": "Admin groups"
+                    },
+                    {
+                    "id": 5,
+                    "title": "Admin queues"
+                    },
+                    {
+                    "id": 6,
+                    "title": "Admin operators"
+                    }
+                ]
+        });
+
+})
+
+
+
+app.post('/api/admin/users/roles/:id',(req, res)=>{
+    console.log('/api/admin/users/roles/{role id}');
+    console.log(req.body);
+    
+});
+
+app.post('/api/admin/users/roles/allow/:roleId',(req, res)=>{
+    console.log('/api/admin/users/roles/allow/{role id}');
+    console.log(req.body);
+    
+});
+app.post('/api/admin/users/roles/allow/:roleId',(req, res)=>{
+    console.log('/api/admin/users/roles/allow/{role id}');
+    console.log(req.body);
+    
+});
+
+app.put('/api/admin/users/roles/:roleId',(req, res)=>{
+    console.log('/api/admin/users/roles/{role id}');
+    console.log(req.body);
+});
+
+
+
+
+
+
+
+
+//reports
+
+app.get('/api/admin/report/cdr',(req, res)=>{
+    console.log('/api/admin/users/roles/{role id}');
+    console.log(req.body);
+    res.json({
+        "current_page": 1,
+        "data": [
+            {
+                "calldate": "2019-09-01 19:47:33",
+                "src": "",
+                "dst": "s",
+                "duration": 263,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 19:47:33",
+                "src": "",
+                "dst": "s",
+                "duration": 263,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 19:41:06",
+                "src": "",
+                "dst": "s",
+                "duration": 376,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 19:41:06",
+                "src": "",
+                "dst": "s",
+                "duration": 376,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:48:03",
+                "src": "55458511",
+                "dst": "s",
+                "duration": 21,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:48:03",
+                "src": "55458511",
+                "dst": "s",
+                "duration": 21,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:16",
+                "src": "1002",
+                "dst": "09162040460",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:16",
+                "src": "1002",
+                "dst": "09162040460",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1200",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1200",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1001",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1001",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1002",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1002",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:40:52",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 9,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:40:52",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 9,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:39:49",
+                "src": "09162040460",
+                "dst": "s",
+                "duration": 15,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:39:49",
+                "src": "09162040460",
+                "dst": "s",
+                "duration": 15,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:34:54",
+                "src": "newrock",
+                "dst": "s",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:34:54",
+                "src": "newrock",
+                "dst": "s",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:32:39",
+                "src": "1002",
+                "dst": "09162040460",
+                "duration": 109,
+                "disposition": "ANSWERED"
+            }
+        ],
+        "first_page_url": "http://192.168.137.98:8076/api/v1/admin/reports/cdr?page=1",
+        "from": 1,
+        "last_page": 793,
+        "last_page_url": "http://192.168.137.98:8076/api/v1/admin/reports/cdr?page=793",
+        "next_page_url": "http://192.168.137.98:8076/api/v1/admin/reports/cdr?page=2",
+        "path": "http://192.168.137.98:8076/api/v1/admin/reports/cdr",
+        "per_page": 25,
+        "prev_page_url": null,
+        "to": 25,
+        "total": 19820
+    });
+});
+
+app.get('/api/admin/report/system/performance',(req, res)=>{
+    console.log('/admin/reports/system/performance');
+    console.log(req.body);
+
+    res.json({
+        time:1234,
+        avg : 1880.6,
+        all : 17670,
+        answer : 10302,
+        noanswer : 7288,
+        performance : 56.7,
+
+    });
+
+});
+
+
+
+
+
+app.get('/api/admin/reports', (req, res)=>{
+
+    res.json({
+        "extensions": [
+            "1002",
+            "1001",
+            "1021",
+            "1008"
+        ],
+        "groups": [
+            {
+                "id": 1,
+                "name": "نیروی انسانی"
+            },
+            {
+                "id": 2,
+                "name": "فرهنگیان"
+            }
+        ]
+    });
+    res.status=200;
+})
+
+//reports queues
+{
+app.get('/api/admin/reports/queues', (req, res)=>{
+    res.json({   
+
+    });
+});
+
+
+
+app.get('/api/admin/reports/queues/chart/servicelevel', (req, res)=>{
+res.json({   
+});
+});
+
+app.get('/api/admin/reports/queues/chart/time', (req, res)=>{
+res.json({   
+});
+});
+
+app.get('/api/admin/reports/queues/chart/calls', (req, res)=>{
+    res.json({   
+    });
+    });
+
+}
+
+//reports bills
+{
+    app.post('/api/admin/reports/bill/groups', (req, res)=>{
+        console.log(req.body);
+        
+    res.json(  
+        {
+            "0": {
+                "1002": {
+                    "number": 1002,
+                    "mobile": 136020,
+                    "urbanCall": 108816,
+                    "intercityCall": 95214,
+                    "abonmah": 200,
+                    "sum": 340250
+                }
+            },
+            "1": {
+                "1011": {
+                    "number": 1011,
+                    "mobile": 116.7,
+                    "urbanCall": 93.3,
+                    "intercityCall": 81.7,
+                    "abonmah": 200,
+                    "sum": 491.7
+                }
+            },
+            "all": {
+                "mobile": 136136.7,
+                "urbanCall": 108909.3,
+                "intercityCall": 95295.7,
+                "abonmah": 200,
+                "sum": 340541.7
+            }
+        }
+    );
+    });
+    
+}
+
+
+///reports- operator
+{
+
+app.get('/api/admin/report/operators', (req, res)=>{
+
+res.json([
+        {
+            id:'4',
+            name:'مسعود فصاحت',
+            phonenumber:'9993',
+        },
+        {
+            id:'4',
+            name:'ali t',
+            phonenumber:'1002',
+        },
+        {
+            id:'4',
+            name:'مسعود فصاحت',
+            phonenumber:'9993',
+        },
+        {
+            id:'4',
+            name:'ali t',
+            phonenumber:'1002',
+        },
+        {
+            id:'4',
+            name:'مسعود فصاحت',
+            phonenumber:'9993',
+        },
+        {
+            id:'4',
+            name:'ali t',
+            phonenumber:'1002',
+        },
+        {
+            id:'4',
+            name:'مسعود فصاحت',
+            phonenumber:'9993',
+        },
+        {
+            id:'4',
+            name:'ali t',
+            phonenumber:'1002',
+        },
+
+    ]);
+    res.status = 200;
+
+})
+
+app.get('/api/admin/report/operators/:id', (req, res)=>{
+    res.json({
+                "name": "مسعود فصاحت",
+                "phonenumber": 9993,
+                "date_login": "1398/02/17 13:01:22",
+                "date_logout": "1398/02/17 13:06:54",
+                "detail": {
+                "time": 0,
+                "avg": 0,
+                "all": 0,
+                "answer": 0,
+                "noanswer": 0,
+                "performance": 0
+            }
+        },);
+});
+
+
+app.get('/api/admin/report/operators/performance/:id', (req, res)=>{
+    res.json({
+                "time": 40183,
+                "avg": 225.7,
+                "all": 1654,
+                "answer": 1432,
+                "noanswer": 222,
+                "performance": 86.6
+                }
+                );
+});
+
+app.get('/api/admin/report/operators/performance/todate/:id', (req, res)=>{
+    res.json({
+                "time": 40183,
+                "avg": 225.7,
+                "all": 1654,
+                "answer": 1432,
+                "noanswer": 222,
+                "performance": 86.6
+                }
+                );
+});
+
+
+
+}
+//reports bll
+{
+    app.get('/api/admin/reports/bill', (req, res)=>{
+        res.json({   
+        });
+        });
+
+
+    app.post('/api/admin/reports/bill/extensions/:id', (req, res)=>{
+        res.json({   
+            "number": 1002,
+            "mobile": 136020,
+            "urbanCall": 108816,
+            "intercityCall": 95214,
+            "abonmah": 200,
+            "sum": 340250
+        });
+    });
+    app.post('/api/admin/reports//bill/group/:id', (req, res)=>{
+        res.json({   
+            "number": 1002,
+            "mobile": 136020,
+            "urbanCall": 108816,
+            "intercityCall": 95214,
+            "abonmah": 200,
+            "sum": 340250
+        });
+    });
+
+    app.post('/api/admin/reports//bill/groups', (req, res)=>{
+        res.json({
+            "0": {
+                "1002": {
+                    "number": 1002,
+                    "mobile": 136020,
+                    "urbanCall": 108816,
+                    "intercityCall": 95214,
+                    "abonmah": 200,
+                    "sum": 340250
+                }
+            },
+            "1": {
+                "1011": {
+                    "number": 1011,
+                    "mobile": 116.7,
+                    "urbanCall": 93.3,
+                    "intercityCall": 81.7,
+                    "abonmah": 200,
+                    "sum": 491.7
+                }
+            },
+            "all": {
+                "mobile": 136136.7,
+                "urbanCall": 108909.3,
+                "intercityCall": 95295.7,
+                "abonmah": 200,
+                "sum": 340541.7
+            }
+        });
+    });
+
+
+}
 
 
 
