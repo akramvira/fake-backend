@@ -26,6 +26,9 @@ app.use(express.json());
 
 
 //login section
+{
+
+
 app.get("/api/login", (req, res, next) => {
     console.log('get/api/login');
     if (req.query.token === "ADMINTOKENNODEJS") {
@@ -64,10 +67,15 @@ app.post("/api/logout", (req, res, next) => {
 });
 app.get("/api/admin/menu", (req, res, next) =>{
     console.log('get/api/admin/menu');
+
+    if(req.query.token != "ADMINTOKENNODEJS"){
+        res.status(401);
+        console.log('error auth');
+    }
     res.json({
         data:[
              "dashboard", 
-             "settings",
+             "setting",
              "users",
              "userRols",
              "queues",
@@ -76,8 +84,12 @@ app.get("/api/admin/menu", (req, res, next) =>{
              "reports",
              "bill"
         ]
-    })
+    });
+
+  
+        
 })
+}
 
 app.get("/api/admin/dashboard", (req, res, next) => {
     console.log('get/api/admin/dashboard');
@@ -85,35 +97,42 @@ app.get("/api/admin/dashboard", (req, res, next) => {
     if (req.headers.authorization == 'Bearer ADMINTOKENNODEJS')
     {
         res.json({
-            "cpu": randBetween(60 , 80),
-            "ram": randBetween(60 , 80),
+
+                activecalls: 0,
+                activeextensions: 0,
+                activetime: [0, 12, 3, 2, 19],
+                callprocessed: 4,
+                channels: 0,
+                cpu: 91,
+                hard: {capacity: 477, use: 28, avilable: 323},
+                queue: 0,
+                ram: 33,
+                swap: 0.2,
+
+
+            "cpu": randBetween(79 , 80),
+            "ram": randBetween(70 , 71),
             
-            "swap":  randBetween(60 , 80),
+            "swap":  randBetween(60 , 63),
             "activecalls": randBetween(60 , 80, 'int'),
             "callprocessed": parseInt(Math.random() * 100),
 
-            "activeTime": parseInt(Math.random() * 100),
+            "activetime": parseInt(Math.random() * 100),
             "activeTrunks": parseInt(Math.random() * 100),
-            "activeChannels": parseInt(Math.random() * 100),
-            "callsCountInQueue": parseInt(Math.random() * 100),
+            "channels": parseInt(Math.random() * 100),
+            "queue": parseInt(Math.random() * 100),
 
             "hard": {
                 "capacity": 100,
                 "use": parseInt(Math.random() * 100),
                 "available": parseInt(Math.random() * 100)
-            },
-
-            "chart": //[cpu, ram ,swap, activecals ]
-                [
-                [Math.random() * 100,Math.random() * 100,Math.random() * 100,Math.random() * 100]
-                
-                ]
+            }
         }
     );
     
     }
     else {
-        res.status(403);
+        res.status(401);
         res.json({
             data: {error: "شما اجازه دستررسی ندارید"}
         });
@@ -121,6 +140,9 @@ app.get("/api/admin/dashboard", (req, res, next) => {
 });
 
 //setting
+{
+
+
 app.post("/api/admin/setting/save", (req, res, next) => {
     console.log('/api/admin/setting/save');
     res.status(200);
@@ -202,13 +224,14 @@ app.get("/api/admin/setting/license", (req, res, next )=> {
         });
 })
 
-
+}
 
 
 
 //group managements
 
 //get all users
+{
 app.get("/api/admin/users", (req, res, next) => {
     res.json({
         "users": [
@@ -402,11 +425,12 @@ app.post("/api/admin/users/groups", (req, res, next) => {
     //data : 
     // req.body.name 
  });
-
+}
 
 
 
 //user-management
+{
 app.post("/api/admin/users", (req, res, next)=> {
     console.log('Post on /api/admin/users');
     console.log(req.body);
@@ -415,9 +439,12 @@ app.get("/api/admin/users", (req, res, next)=> {
     console.log('Post on /api/admin/users');
     console.log(req.body);
 })
-
+}
 
 //groups-management 
+{
+
+
 app.get("/api/admin/groups", (req, res, next)=> {
     console.log('get on /api/admin/groups');
     console.log(req.body);
@@ -670,10 +697,13 @@ app.put("/api/admin/groups/:id", (req, res, next)=> {
     res.status = 200;
 
 });
+}
 
 
+//roles
+{
 
-//rioles
+
 app.get('/api/admin/users/roles', (req, res) =>{
     console.log('api/admin/users/roles');
 
@@ -714,11 +744,9 @@ app.get('/api/admin/users/roles', (req, res) =>{
 
 })
 
-
-
 app.post('/api/admin/users/roles/:id',(req, res)=>{
     console.log('/api/admin/users/roles/{role id}');
-    console.log(req.body);
+    console.log(req.params);
     
 });
 
@@ -739,7 +767,7 @@ app.put('/api/admin/users/roles/:roleId',(req, res)=>{
 });
 
 
-
+}
 
 
 
@@ -747,7 +775,7 @@ app.put('/api/admin/users/roles/:roleId',(req, res)=>{
 
 //reports
 
-app.get('/api/admin/report/cdr',(req, res)=>{
+app.get('/api/admin/reports/cdr',(req, res)=>{
     console.log('/api/admin/users/roles/{role id}');
     console.log(req.body);
     res.json({
@@ -942,7 +970,203 @@ app.get('/api/admin/report/cdr',(req, res)=>{
     });
 });
 
-app.get('/api/admin/report/system/performance',(req, res)=>{
+app.post('/api/admin/reports/cdr', (req, res)=>{
+    res.json({
+        "current_page": 1,
+        "data": [
+            {
+                "calldate": "2019-09-01 19:47:33",
+                "src": "meee",
+                "dst": "s",
+                "duration": 263,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 19:47:33",
+                "src": "",
+                "dst": "s",
+                "duration": 263,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 19:41:06",
+                "src": "",
+                "dst": "s",
+                "duration": 376,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 19:41:06",
+                "src": "",
+                "dst": "s",
+                "duration": 376,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:48:03",
+                "src": "55458511",
+                "dst": "s",
+                "duration": 21,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:48:03",
+                "src": "55458511",
+                "dst": "s",
+                "duration": 21,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:16",
+                "src": "1002",
+                "dst": "09162040460",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:16",
+                "src": "1002",
+                "dst": "09162040460",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1200",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1200",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1001",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1001",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1002",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "1002",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 0,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:41:02",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 10,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:40:52",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 9,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:40:52",
+                "src": "09162040460",
+                "dst": "8088",
+                "duration": 9,
+                "disposition": "CONGESTION"
+            },
+            {
+                "calldate": "2019-09-01 18:39:49",
+                "src": "09162040460",
+                "dst": "s",
+                "duration": 15,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:39:49",
+                "src": "09162040460",
+                "dst": "s",
+                "duration": 15,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:34:54",
+                "src": "newrock",
+                "dst": "s",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:34:54",
+                "src": "newrock",
+                "dst": "s",
+                "duration": 39,
+                "disposition": "ANSWERED"
+            },
+            {
+                "calldate": "2019-09-01 18:32:39",
+                "src": "1002",
+                "dst": "09162040460",
+                "duration": 109,
+                "disposition": "ANSWERED"
+            }
+        ],
+        "first_page_url": "http://192.168.137.98:8076/api/v1/admin/reports/cdr?page=1",
+        "from": 1,
+        "last_page": 793,
+        "last_page_url": "http://192.168.137.98:8076/api/v1/admin/reports/cdr?page=793",
+        "next_page_url": "http://192.168.137.98:8076/api/v1/admin/reports/cdr?page=2",
+        "path": "http://192.168.137.98:8076/api/v1/admin/reports/cdr",
+        "per_page": 25,
+        "prev_page_url": null,
+        "to": 25,
+        "total": 19820
+    });
+
+    res.status = 200;
+})
+
+
+app.get('/api/admin/reports/system/performance',(req, res)=>{
     console.log('/admin/reports/system/performance');
     console.log(req.body);
 
@@ -956,6 +1180,7 @@ app.get('/api/admin/report/system/performance',(req, res)=>{
 
     });
 
+    res.status = 200;
 });
 
 
@@ -985,30 +1210,330 @@ app.get('/api/admin/reports', (req, res)=>{
     res.status=200;
 })
 
+//reports group
+{
+    app.get('/api/admin/reports/group/daily', (req, res)=>{
+        let data = [];
+        for(i = 1; i <= 24; i++ ){
+        data.push({
+            all : randBetween(1000,1500),
+            answer : randBetween(500,600),
+            noanswer : randBetween(400,500),
+            performance : randBetween(30,100)
+        })
+        }
+        res.json(data);
+    
+   
+    res.status=200;
+    })
+
+    app.get('/api/admin/reports/group/monthly', (req, res)=>{
+        
+        let data = [];
+        for(i = 1; i <= 30; i++ ){
+        data.push({
+            all : randBetween(1000,1500),
+            answer : randBetween(500,600),
+            noanswer : randBetween(400,500),
+            performance : randBetween(30,100)
+        })
+        }
+        res.json(data);
+
+    res.status=200;
+    })
+
+    app.get('/api/admin/reports/group/yearly', (req, res)=>{
+
+        let data = [];
+        for(i = 1; i <= 12; i++ ){
+        data.push({
+            all : randBetween(1000,1500),
+            answer : randBetween(500,600),
+            noanswer : randBetween(400,500),
+            performance : randBetween(30,100)
+        })
+        }
+        res.json(data);
+    
+    res.status=200;
+    })
+
+    app.get('/api/admin/reports/group/compare/chart/calls', (req, res)=>{
+        
+        res.json({
+            "1": {
+                "name": "نیروی انسانی",
+                "all": 3720,
+                "answer": 1584,
+                "noanswer": 2136
+            },
+            "2": {
+                "name": "فرهنگیان444",
+                "all": 102,
+                "answer": 70,
+                "noanswer": 32
+            },
+            "3": {
+                "name": "گروه جدید",
+                "all": 0,
+                "answer": 0,
+                "noanswer": 0
+            }
+        });
+
+        res.status(200);
+    })
+}
+
+
 //reports queues
 {
 app.get('/api/admin/reports/queues', (req, res)=>{
-    res.json({   
-
+    res.json({
+        "1999": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": [
+                {
+                    "number": "1002",
+                    "lastcall": "11052",
+                    "dynamic": "no",
+                    "status": "Not in use"
+                }
+            ]
+        },
+        "8088": {
+            "calls": "0",
+            "strategy": "linear",
+            "holdtime": "13s",
+            "talktime": "81s",
+            "answered": "9",
+            "unanswered": "2",
+            "servicelevel": "100.0%",
+            "member": [
+                {
+                    "number": "1200",
+                    "lastcall": "no call",
+                    "dynamic": "no",
+                    "status": "Unavailable"
+                },
+                {
+                    "number": "1001",
+                    "lastcall": "no call",
+                    "dynamic": "no",
+                    "status": "Unavailable"
+                },
+                {
+                    "number": "1002",
+                    "lastcall": "11052",
+                    "dynamic": "no",
+                    "status": "Not in use"
+                }
+            ]
+        },
+        "9003": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        },
+        "9004": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        },
+        "9005": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        },
+        "9006": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        },
+        "9007": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        },
+        "9010": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        },
+        "9011": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        },
+        "9012": {
+            "calls": "0",
+            "strategy": "ringall",
+            "holdtime": "0s",
+            "talktime": "0s",
+            "answered": "0",
+            "unanswered": "0",
+            "servicelevel": "0.0%",
+            "member": []
+        }
     });
 });
 
 
 
 app.get('/api/admin/reports/queues/chart/servicelevel', (req, res)=>{
-res.json({   
-});
+    res.json({
+        "1999": 0,
+        "8088": 100,
+        "9003": 0,
+        "9004": 0,
+        "9005": 0,
+        "9006": 0,
+        "9007": 0,
+        "9010": 0,
+        "9011": 0,
+        "9012": 0
+    });
+
+    res.status(200);
 });
 
 app.get('/api/admin/reports/queues/chart/time', (req, res)=>{
-res.json({   
-});
+res.json({
+    "1999": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "8088": {
+        "holdtime": "13s",
+        "talktime": "81s"
+    },
+    "9003": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "9004": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "9005": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "9006": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "9007": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "9010": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "9011": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    },
+    "9012": {
+        "holdtime": "0s",
+        "talktime": "0s"
+    }
+}
+);
+
+res.status(200);
 });
 
 app.get('/api/admin/reports/queues/chart/calls', (req, res)=>{
-    res.json({   
-    });
-    });
+    res.json({
+        "1999": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "8088": {
+            "answered": "9",
+            "unanswered": "2"
+        },
+        "9003": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "9004": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "9005": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "9006": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "9007": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "9010": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "9011": {
+            "answered": "0",
+            "unanswered": "0"
+        },
+        "9012": {
+            "answered": "0",
+            "unanswered": "0"
+        }
+    }
+    );
+    res.status(200);
+});
 
 }
 
@@ -1058,6 +1583,7 @@ app.get('/api/admin/reports/queues/chart/calls', (req, res)=>{
 
 app.get('/api/admin/report/operators', (req, res)=>{
 
+    console.log('/api/admin/report/operators');
 res.json([
         {
             id:'4',
@@ -1106,6 +1632,7 @@ res.json([
 })
 
 app.get('/api/admin/report/operators/:id', (req, res)=>{
+    console.log('/api/admin/report/operators/'+req.params.id);
     res.json({
                 "name": "مسعود فصاحت",
                 "phonenumber": 9993,
@@ -1113,17 +1640,18 @@ app.get('/api/admin/report/operators/:id', (req, res)=>{
                 "date_logout": "1398/02/17 13:06:54",
                 "detail": {
                 "time": 0,
-                "avg": 0,
-                "all": 0,
-                "answer": 0,
-                "noanswer": 0,
-                "performance": 0
+                "avg": 12,
+                "all": 100,
+                "answer": 59,
+                "noanswer": 41,
+                "performance": 40
             }
         },);
 });
 
 
 app.get('/api/admin/report/operators/performance/:id', (req, res)=>{
+    console.log('/api/admin/report/operators/performance/'+req.params.id);
     res.json({
                 "time": 40183,
                 "avg": 225.7,
@@ -1135,7 +1663,10 @@ app.get('/api/admin/report/operators/performance/:id', (req, res)=>{
                 );
 });
 
-app.get('/api/admin/report/operators/performance/todate/:id', (req, res)=>{
+
+
+app.post('/api/admin/report/operators/performance/todate/:id', (req, res)=>{
+    console.log('/api/admin/report/operators/todate/'+req.params.id);
     res.json({
                 "time": 40183,
                 "avg": 225.7,
@@ -1143,12 +1674,44 @@ app.get('/api/admin/report/operators/performance/todate/:id', (req, res)=>{
                 "answer": 1432,
                 "noanswer": 222,
                 "performance": 86.6
-                }
-                );
+            }
+            );
+
+    res.status = 200;
+});
+
+
+app.get('/api/admin/report/operators/performance/month/:id', (req, res)=>{
+    console.log('/api/admin/report/operators/todate/'+req.params.id);
+    res.json({
+                "time": 40183,
+                "avg": 225.7,
+                "all": 1654,
+                "answer": 1432,
+                "noanswer": 222,
+                "performance": 86.6
+            }
+            );
+
+    res.status = 200;
 });
 
 
 
+}
+//queues
+{
+    app.get('/api/admin/report/operators', (req, res)=>{
+
+        console.log('/api/admin/report/operators');
+    res.json([
+            {
+                
+            }
+        ]);
+        res.status = 200;
+    
+    });
 }
 //reports bll
 {
