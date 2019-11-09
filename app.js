@@ -226,6 +226,14 @@ app.get("/api/admin/setting/license", (req, res, next )=> {
 
 }
 
+app.get("/api/v2/admin/reports/chart/global/number/calls", (req, res, next )=> {
+    res.json(
+        {"data":{"in":{"time":861472620,"avg":5777,"all":288424,"answer":149881,"noanswer":4272,"busy":134271,"performance":52,"panswer":51.97,"pnoanswer":1.48,"pbusy":46.55},"out":{"time":595226940,"avg":3676,"all":284213,"mobile":203239,"co":342053,"betweenco":183770,"pmobile":27.88,"pco":46.92,"pbetweenco":25.21}},"message":"success"}
+);
+})
+
+}
+
 
 
 //group managements
